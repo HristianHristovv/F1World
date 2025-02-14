@@ -6,3 +6,53 @@
     <h1 class="display-4">Welcome</h1>
     <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
 </div>
+@{
+    ViewData["Title"] = "F1 World";
+    var drivers = ViewData["Drivers"] as dynamic;
+    var news = ViewData["News"] as string;
+}
+
+<div class="container">
+    <div class="row">
+        <!-- Standings таблица -->
+        <div class="col-md-6">
+            <h2>F1 2025 DRIVERS STANDINGS</h2>
+            <table class="table table-dark table-striped">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Driver</th>
+                        <th>Team</th>
+                        <th>Points</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (drivers != null)
+                    {
+                        @foreach (var driver in drivers)
+                        {
+                            <tr>
+                                <td>@driver.position</td>
+                                <td>@driver.Driver.givenName @driver.Driver.familyName</td>
+                                <td>@driver.Constructors[0].name</td>
+                                <td>@driver.points</td>
+                            </tr>
+                        }
+                    }
+                    else
+                    {
+                        <tr><td colspan="4">Няма данни</td></tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+
+        <!-- F1 новини -->
+        <div class="col-md-6">
+            <h2>News</h2>
+            <div class="card bg-dark text-white p-3">
+                @Html.Raw(news) <!-- Тук рендерираме RSS новините -->
+            </div>
+        </div>
+    </div>
+</div>
