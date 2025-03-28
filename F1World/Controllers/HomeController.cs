@@ -1,9 +1,11 @@
-using F1World.Models;
+п»їusing F1World.Models;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json.Linq;
 using System.Diagnostics;
 using System.Net.Http;
 using System.Threading.Tasks;
-using Newtonsoft.Json.Linq;
+using System.Collections.Generic;
+using System.Text.RegularExpressions;
 
 namespace F1World.Controllers
 {
@@ -20,54 +22,55 @@ namespace F1World.Controllers
 
         public async Task<IActionResult> Index()
         {
-            // Дефинираме ViewData
             ViewData["Title"] = "F1 World";
 
-            // 1?? Взимаме F1 Standings от API
+            // рџЏЋпёЏ Р’Р·РёРјР°РјРµ РєР»Р°СЃРёСЂР°РЅРµС‚Рѕ РЅР° РїРёР»РѕС‚РёС‚Рµ РѕС‚ API
             var standingsUrl = "https://ergast.com/api/f1/current/driverStandings.json";
-            var drivers = new List<dynamic>(); // Празен лист, ако API не върне резултати
+            var drivers = new List<DriverStandingsModel>();
 
             try
             {
                 var response = await _httpClient.GetStringAsync(standingsUrl);
                 var json = JObject.Parse(response);
-                drivers = json["MRData"]["StandingsTable"]["StandingsLists"][0]["DriverStandings"].ToObject<List<dynamic>>();
+
+                drivers = json["MRData"]["StandingsTable"]["StandingsLists"][0]["DriverStandings"]
+                    .ToObject<List<DriverStandingsModel>>();
             }
             catch (Exception ex)
             {
-                _logger.LogError("Грешка при вземане на Standings: " + ex.Message);
+                _logger.LogError($"вќЊ Р“СЂРµС€РєР° РїСЂРё Р·Р°СЂРµР¶РґР°РЅРµ РЅР° Standings: {ex.Message}");
             }
 
             ViewData["Drivers"] = drivers;
 
-            // 2?? Взимаме F1 Новини (примерен RSS feed)
-            var newsUrl = "https://www.formula1.com/en/latest/all.xml"; // Замени с валиден RSS JSON API
-            string newsHtml = "<p>Грешка при зареждане на новините.</p>";
+            // рџ“° Р’Р·РёРјР°РјРµ РЅРѕРІРёРЅРё (С‚СѓРє РјРѕР¶Рµ РґР° РёР·РїРѕР»Р·РІР°С€ РёСЃС‚РёРЅСЃРєРё RSS JSON API)
+            var newsUrl = "https://www.formula1.com/en/latest/all.xml"; // Р—Р°РјРµРЅРё СЃ JSON РёР·С‚РѕС‡РЅРёРє
+            string newsHtml = "<p>Р“СЂРµС€РєР° РїСЂРё Р·Р°СЂРµР¶РґР°РЅРµ РЅР° РЅРѕРІРёРЅРёС‚Рµ.</p>";
 
             try
             {
                 var newsResponse = await _httpClient.GetStringAsync(newsUrl);
-                newsHtml = $"<pre>{newsResponse}</pre>"; // Тук трябва да обработим XML към HTML
+                newsHtml = ConvertUrlsToLinks(newsResponse); // РџСЂРµРѕР±СЂР°Р·СѓРІР°РјРµ URL-РёС‚Рµ РІ РєР»РёРєР°РµРјРё Р»РёРЅРєРѕРІРµ
             }
             catch (Exception ex)
             {
-                _logger.LogError("Грешка при зареждане на новини: " + ex.Message);
+                _logger.LogError("Р“СЂРµС€РєР° РїСЂРё Р·Р°СЂРµР¶РґР°РЅРµ РЅР° РЅРѕРІРёРЅРё: " + ex.Message);
             }
 
             ViewData["News"] = newsHtml;
 
             return View();
-        }
 
-        public IActionResult Privacy()
-        {
-            return View();
         }
-
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
+        private string ConvertUrlsToLinks(string text)
         {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+            if (string.IsNullOrEmpty(text))
+                return text;
+
+            string pattern = @"(http[s]?:\/\/[^\s]+)";
+            string replacement = "<a href=\"$1\" target=\"_blank\">$1</a>";
+
+            return Regex.Replace(text, pattern, replacement);
         }
     }
 }

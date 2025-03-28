@@ -1,93 +1,105 @@
 html {
-    font-size: 14px;
-}
-
-@media (min-width: 768px) {
-    html {
-        font-size: 16px;
-    }
-}
-
-.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
-    box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
-}
-
-html {
-    position: relative;
-    min-height: 100%;
+    font-size: 16px;
 }
 
 body {
-    margin-bottom: 60px;
-}
-
-body {
-    background-image: url('C:\Users\НА012321\Desktop\Programirane\F1World\F1World\wwwroot\Backgrounds\свали (2).png');
+    margin: 0;
+    padding: 0;
+    font-family: 'Arial', sans-serif;
+    background-color: #121212;
+    color: #e0e0e0;
+    background-image: url('path/to/your/background-image.jpg'); /* Add your background image path here */
     background-size: cover;
-    background-repeat: no-repeat;
-    background-attachment: fixed;
     background-position: center;
-    color: #333;
-    font-family: Arial, sans-serif;
+    background-attachment: fixed;
 }
 
 .navbar {
-    background-color: black;
+    background-color: #000;
+    padding: 10px 20px;
+    border-bottom: 2px solid red;
 }
 
     .navbar .nav-link {
         color: white !important;
         font-weight: bold;
+        transition: color 0.3s ease-in-out;
     }
 
         .navbar .nav-link:hover {
             color: red !important;
+            text-decoration: underline;
         }
 
-        .navbar .nav-link.btn {
-            margin-right: 10px;
-            border-radius: 20px;
-            padding: 8px 15px;
-        }
+.btn {
+    border-radius: 25px;
+    padding: 10px 20px;
+    transition: all 0.3s ease-in-out;
+}
 
-    .navbar .btn-primary {
+.btn-primary {
+    background-color: red;
+    border-color: red;
+    color: white;
+}
+
+    .btn-primary:hover {
+        background-color: darkred;
+    }
+
+.btn-danger {
+    background-color: #dc3545;
+    border-color: #dc3545;
+    color: white;
+}
+
+    .btn-danger:hover {
+        background-color: #a71d2a;
+    }
+
+.btn-success {
+    background-color: #28a745;
+    border-color: #28a745;
+    color: white;
+}
+
+    .btn-success:hover {
+        background-color: #1e7e34;
+    }
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: rgba(30, 30, 30, 0.9);
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 0 10px rgba(255, 0, 0, 0.3);
+    margin: 20px 0;
+}
+
+    table th, table td {
+        padding: 12px;
+        text-align: left;
+        border-bottom: 1px solid #333;
+    }
+
+    table th {
         background-color: red;
-        border-color: red;
-        color: red;
+        color: white;
+        font-weight: bold;
     }
 
-        .navbar .btn-primary:hover {
-            background-color: #0056b3; /* По-тъмен цвят при задържане */
-        }
-
-    .navbar .btn-danger {
-        background-color: #dc3545;
-        border-color: #dc3545;
-        color: red;
+    table tr:hover {
+        background-color: rgba(255, 0, 0, 0.2);
     }
 
-        .navbar .btn-danger:hover {
-            background-color: #a71d2a; /* По-тъмен цвят при задържане */
-        }
-
-    .navbar .btn-success {
-        background-color: #28a745;
-        border-color: #28a745;
-        color: red;
-    }
-
-        .navbar .btn-success:hover {
-            background-color: #1e7e34; /* По-тъмен цвят при задържане */
-        }
-
-/* Стилове за формите за регистрация и вход */
 form {
     max-width: 500px;
     margin: auto;
     padding: 20px;
-    background-color: rgba(255, 255, 255, 0.9); /* Полупрозрачен бял фон */
+    background-color: rgba(255, 255, 255, 0.1);
     border-radius: 10px;
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+    box-shadow: 0px 4px 8px rgba(255, 0, 0, 0.3);
 }
 
     form label {
@@ -106,27 +118,25 @@ form {
         border: 1px solid #ccc;
     }
 
-    /* Стил за бутона "Submit" */
     form input[type="submit"] {
-        background-color: #007bff;
+        background-color: red;
         color: white;
         border: none;
         cursor: pointer;
         font-weight: bold;
         margin-top: 15px;
+        transition: background 0.3s ease-in-out;
     }
 
         form input[type="submit"]:hover {
-            background-color: blue;
+            background-color: darkred;
         }
 
-/* Стил за футъра (ако има такъв) */
 footer {
     text-align: center;
     padding: 20px;
     background-color: rgba(0, 0, 0, 0.8);
-    color: white
-        ;
+    color: white;
     margin-top: 20px;
 }
 

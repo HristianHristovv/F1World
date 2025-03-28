@@ -1,14 +1,6 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
-}
-
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
-@{
     ViewData["Title"] = "F1 World";
-    var drivers = ViewData["Drivers"] as dynamic;
+    var drivers = ViewData["Drivers"] as List<F1World.Models.DriverStandingsModel>;
     var news = ViewData["News"] as string;
 }
 
@@ -27,15 +19,15 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @if (drivers != null)
+                    @if (drivers != null && drivers.Any())
                     {
                         @foreach (var driver in drivers)
                         {
                             <tr>
-                                <td>@driver.position</td>
-                                <td>@driver.Driver.givenName @driver.Driver.familyName</td>
-                                <td>@driver.Constructors[0].name</td>
-                                <td>@driver.points</td>
+                                <td>@driver.Position</td>
+                                <td>@driver.Driver.FirstName @driver.Driver.LastName</td>
+                                <td>@driver.Constructors[0].TeamName</td>
+                                <td>@driver.Points</td>
                             </tr>
                         }
                     }
@@ -46,12 +38,11 @@
                 </tbody>
             </table>
         </div>
-
         <!-- F1 новини -->
         <div class="col-md-6">
             <h2>News</h2>
             <div class="card bg-dark text-white p-3">
-                @Html.Raw(news) <!-- Тук рендерираме RSS новините -->
+                @Html.Raw(news) <!-- Сега новините ще бъдат с кликаеми линкове -->
             </div>
         </div>
     </div>
