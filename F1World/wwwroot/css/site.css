@@ -1,3 +1,4 @@
+/* Global Styles */
 html {
     font-size: 16px;
 }
@@ -8,16 +9,17 @@ body {
     font-family: 'Arial', sans-serif;
     background-color: #121212;
     color: #e0e0e0;
-    background-image: url('path/to/your/background-image.jpg'); /* Add your background image path here */
+    background-image: url('/images/f1-bg.jpg'); /* Добави F1 background */
     background-size: cover;
     background-position: center;
     background-attachment: fixed;
 }
 
+/* Navigation Bar */
 .navbar {
-    background-color: #000;
+    background-color: black;
     padding: 10px 20px;
-    border-bottom: 2px solid red;
+    border-bottom: 3px solid red;
 }
 
     .navbar .nav-link {
@@ -31,6 +33,7 @@ body {
             text-decoration: underline;
         }
 
+/* Buttons */
 .btn {
     border-radius: 25px;
     padding: 10px 20px;
@@ -47,26 +50,7 @@ body {
         background-color: darkred;
     }
 
-.btn-danger {
-    background-color: #dc3545;
-    border-color: #dc3545;
-    color: white;
-}
-
-    .btn-danger:hover {
-        background-color: #a71d2a;
-    }
-
-.btn-success {
-    background-color: #28a745;
-    border-color: #28a745;
-    color: white;
-}
-
-    .btn-success:hover {
-        background-color: #1e7e34;
-    }
-
+/* Table Styles */
 table {
     width: 100%;
     border-collapse: collapse;
@@ -93,45 +77,15 @@ table {
         background-color: rgba(255, 0, 0, 0.2);
     }
 
-form {
-    max-width: 500px;
-    margin: auto;
+/* News Card */
+.news-card {
+    background-color: rgba(20, 20, 20, 0.8);
     padding: 20px;
-    background-color: rgba(255, 255, 255, 0.1);
     border-radius: 10px;
     box-shadow: 0px 4px 8px rgba(255, 0, 0, 0.3);
 }
 
-    form label {
-        font-weight: bold;
-        margin-top: 10px;
-    }
-
-    form input[type="text"],
-    form input[type="password"],
-    form input[type="email"],
-    form input[type="submit"] {
-        width: 100%;
-        padding: 10px;
-        margin-top: 5px;
-        border-radius: 5px;
-        border: 1px solid #ccc;
-    }
-
-    form input[type="submit"] {
-        background-color: red;
-        color: white;
-        border: none;
-        cursor: pointer;
-        font-weight: bold;
-        margin-top: 15px;
-        transition: background 0.3s ease-in-out;
-    }
-
-        form input[type="submit"]:hover {
-            background-color: darkred;
-        }
-
+/* Footer */
 footer {
     text-align: center;
     padding: 20px;
@@ -139,12 +93,3 @@ footer {
     color: white;
     margin-top: 20px;
 }
-
-    footer a {
-        color: #ffc107;
-        text-decoration: none;
-    }
-
-        footer a:hover {
-            text-decoration: underline;
-        }

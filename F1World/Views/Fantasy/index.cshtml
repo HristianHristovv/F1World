@@ -1,0 +1,53 @@
+﻿@{
+    ViewData["Title"] = "Fantasy Team";
+    var drivers = ViewBag.Drivers as List<string>;
+    var teams = ViewBag.Teams as List<string>;
+}
+
+<div class="container mt-5">
+    <h2 class="text-center text-danger">🚀 Create Your Fantasy F1 Team</h2>
+
+    <form method="post" class="mt-4">
+        <div class="mb-3">
+            <label class="form-label">Select Driver 1</label>
+            <select class="form-select" name="driver1">
+                @foreach (var driver in drivers)
+                {
+                    <option value="@driver">@driver</option>
+                }
+            </select>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Select Driver 2</label>
+            <select class="form-select" name="driver2">
+                @foreach (var driver in drivers)
+                {
+                    <option value="@driver">@driver</option>
+                }
+            </select>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Select Team 1</label>
+            <select class="form-select" name="team1">
+                @foreach (var team in teams)
+                {
+                    <option value="@team">@team</option>
+                }
+            </select>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Select Team 2</label>
+            <select class="form-select" name="team2">
+                @foreach (var team in teams)
+                {
+                    <option value="@team">@team</option>
+                }
+            </select>
+        </div>
+
+        <button type="submit" class="btn btn-danger">Save Fantasy Team</button>
+    </form>
+</div>

@@ -4,46 +4,55 @@
     var news = ViewData["News"] as string;
 }
 
-<div class="container">
+<div class="container mt-4">
     <div class="row">
-        <!-- Standings таблица -->
+        <!-- F1 Standings -->
         <div class="col-md-6">
-            <h2>F1 2025 DRIVERS STANDINGS</h2>
-            <table class="table table-dark table-striped">
-                <thead>
-                    <tr>
-                        <th>#</th>
-                        <th>Driver</th>
-                        <th>Team</th>
-                        <th>Points</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @if (drivers != null && drivers.Any())
-                    {
-                        @foreach (var driver in drivers)
+            <h2 class="text-danger text-center">🏎️ F1 2025 DRIVERS STANDINGS</h2>
+            <div class="table-responsive">
+                <table class="table table-dark table-striped shadow">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Driver</th>
+                            <th>Team</th>
+                            <th>Points</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (drivers != null && drivers.Any())
+                        {
+                            foreach (var driver in drivers)
+                            {
+                                <tr>
+                                    <td><strong>@driver.Position</strong></td>
+                                    <td>@driver.Driver?.FirstName @driver.Driver?.LastName</td>
+                                    <td>@driver.Constructors?[0]?.TeamName</td>
+                                    <td><span class="badge bg-danger p-2">@driver.Points</span></td>
+                                </tr>
+                            }
+                        }
+                        else
                         {
                             <tr>
-                                <td>@driver.Position</td>
-                                <td>@driver.Driver.FirstName @driver.Driver.LastName</td>
-                                <td>@driver.Constructors[0].TeamName</td>
-                                <td>@driver.Points</td>
+                                <td colspan="4" class="text-center text-warning">🔴 Няма налични данни</td>
                             </tr>
                         }
-                    }
-                    else
-                    {
-                        <tr><td colspan="4">Няма данни</td></tr>
-                    }
-                </tbody>
-            </table>
+                    </tbody>
+                </table>
+            </div>
         </div>
-        <!-- F1 новини -->
+
+        <!-- F1 News Section -->
         <div class="col-md-6">
-            <h2>News</h2>
-            <div class="card bg-dark text-white p-3">
-                @Html.Raw(news) <!-- Сега новините ще бъдат с кликаеми линкове -->
+            <h2 class="text-danger text-center">📰 Latest F1 News</h2>
+            <div class="news-card p-3 bg-dark text-light rounded shadow">
+                @Html.Raw(news)
             </div>
         </div>
     </div>
 </div>
+
+<footer class="mt-4 text-center">
+    <p>&copy; 2025 F1 World | Designed for Racing Fans ❤️</p>
+</footer>

@@ -14,6 +14,10 @@ namespace F1World.Models
         [JsonProperty("Driver")]
         public DriverModel Driver { get; set; }
 
+        [JsonProperty("Team")]
+        public TeamModel Team { get; set; }
+
+
         [JsonProperty("Constructors")]
         public List<TeamModel> Constructors { get; set; }
     }
@@ -25,6 +29,7 @@ namespace F1World.Models
 
         [JsonProperty("familyName")]
         public string LastName { get; set; }
+
     }
 
     public class TeamModel
