@@ -4,50 +4,58 @@
     var teams = ViewBag.Teams as List<string>;
 }
 
-<div class="container mt-5">
-    <h2 class="text-center text-danger">🚀 Create Your Fantasy F1 Team</h2>
+<div class="container mt-5 animate-fade-in">
+    <h2 class="text-center text-danger mb-4">🚀 Create Your Fantasy F1 Team</h2>
 
-    <form method="post" class="mt-4">
-        <div class="mb-3">
-            <label class="form-label">Select Driver 1</label>
-            <select class="form-select" name="driver1">
-                @foreach (var driver in drivers)
-                {
-                    <option value="@driver">@driver</option>
-                }
-            </select>
+    <form method="post" class="bg-dark p-4 rounded-4 shadow-lg fantasy-form">
+        <div class="row mb-3">
+            <div class="col-md-6">
+                <label class="form-label text-white">Select Driver 1</label>
+                <select class="form-select custom-select" name="driver1" required>
+                    <option disabled selected>Choose...</option>
+                    @foreach (var driver in drivers)
+                    {
+                        <option value="@driver">@driver</option>
+                    }
+                </select>
+            </div>
+            <div class="col-md-6">
+                <label class="form-label text-white">Select Driver 2</label>
+                <select class="form-select custom-select" name="driver2" required>
+                    <option disabled selected>Choose...</option>
+                    @foreach (var driver in drivers)
+                    {
+                        <option value="@driver">@driver</option>
+                    }
+                </select>
+            </div>
         </div>
 
-        <div class="mb-3">
-            <label class="form-label">Select Driver 2</label>
-            <select class="form-select" name="driver2">
-                @foreach (var driver in drivers)
-                {
-                    <option value="@driver">@driver</option>
-                }
-            </select>
+        <div class="row mb-4">
+            <div class="col-md-6">
+                <label class="form-label text-white">Select Team 1</label>
+                <select class="form-select custom-select" name="team1" required>
+                    <option disabled selected>Choose...</option>
+                    @foreach (var team in teams)
+                    {
+                        <option value="@team">@team</option>
+                    }
+                </select>
+            </div>
+            <div class="col-md-6">
+                <label class="form-label text-white">Select Team 2</label>
+                <select class="form-select custom-select" name="team2" required>
+                    <option disabled selected>Choose...</option>
+                    @foreach (var team in teams)
+                    {
+                        <option value="@team">@team</option>
+                    }
+                </select>
+            </div>
         </div>
 
-        <div class="mb-3">
-            <label class="form-label">Select Team 1</label>
-            <select class="form-select" name="team1">
-                @foreach (var team in teams)
-                {
-                    <option value="@team">@team</option>
-                }
-            </select>
+        <div class="text-center">
+            <button type="submit" class="btn btn-primary btn-lg">💾 Save Fantasy Team</button>
         </div>
-
-        <div class="mb-3">
-            <label class="form-label">Select Team 2</label>
-            <select class="form-select" name="team2">
-                @foreach (var team in teams)
-                {
-                    <option value="@team">@team</option>
-                }
-            </select>
-        </div>
-
-        <button type="submit" class="btn btn-danger">Save Fantasy Team</button>
     </form>
 </div>
