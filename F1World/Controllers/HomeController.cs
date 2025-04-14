@@ -5,7 +5,8 @@ using System.Diagnostics;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Collections.Generic;
-using System.Text.RegularExpressions;
+using System.Xml.Linq;
+using System.Linq;
 
 namespace F1World.Controllers
 {
@@ -43,34 +44,43 @@ namespace F1World.Controllers
 
             ViewData["Drivers"] = drivers;
 
-            // 📰 Взимаме новини (тук може да използваш истински RSS JSON API)
-            var newsUrl = "https://www.formula1.com/en/latest/all.xml"; // Замени с JSON източник
-            string newsHtml = "<p>Грешка при зареждане на новините.</p>";
-
+            // 📰 Взимаме новини от XML RSS
+            var newsList = new List<NewsItem>();
             try
             {
-                var newsResponse = await _httpClient.GetStringAsync(newsUrl);
-                newsHtml = ConvertUrlsToLinks(newsResponse); // Преобразуваме URL-ите в кликаеми линкове
+                var rssUrl = "https://www.formula1.com/en/latest/all.xml";
+                var stream = await _httpClient.GetStreamAsync(rssUrl);
+                var doc = XDocument.Load(stream);
+
+                newsList = doc.Descendants("item")
+                    .Select(item => new NewsItem
+                    {
+                        Title = item.Element("title")?.Value,
+                        Link = item.Element("link")?.Value,
+                        Description = item.Element("description")?.Value
+                    })
+                    .Take(10)
+                    .ToList();
             }
             catch (Exception ex)
             {
-                _logger.LogError("Грешка при зареждане на новини: " + ex.Message);
+                _logger.LogError("❌ Грешка при зареждане на новините: " + ex.Message);
             }
 
-            ViewData["News"] = newsHtml;
+            ViewData["News"] = newsList;
 
             return View();
-
         }
-        private string ConvertUrlsToLinks(string text)
+
+        public IActionResult Privacy()
         {
-            if (string.IsNullOrEmpty(text))
-                return text;
+            return View();
+        }
 
-            string pattern = @"(http[s]?:\/\/[^\s]+)";
-            string replacement = "<a href=\"$1\" target=\"_blank\">$1</a>";
-
-            return Regex.Replace(text, pattern, replacement);
+        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
+        public IActionResult Error()
+        {
+            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
     }
 }

@@ -1,7 +1,7 @@
 ﻿@{
     ViewData["Title"] = "F1 World";
     var drivers = ViewData["Drivers"] as List<F1World.Models.DriverStandingsModel>;
-    var news = ViewData["News"] as string;
+    var news = ViewData["News"] as List<F1World.Models.NewsItem>;
 }
 
 <div class="container mt-4">
@@ -45,14 +45,35 @@
 
         <!-- F1 News Section -->
         <div class="col-md-6">
-            <h2 class="text-danger text-center">📰 Latest F1 News</h2>
-            <div class="news-card p-3 bg-dark text-light rounded shadow">
-                @Html.Raw(news)
-            </div>
+            <h2 class="text-danger text-center mb-4">📰 Latest F1 News</h2>
+
+            @if (news != null && news.Any())
+            {
+                <div class="row">
+                    @foreach (var n in news)
+                    {
+                        <div class="col-md-12 mb-4">
+                            <div class="card bg-dark text-white shadow-lg h-100">
+                                <div class="card-body">
+                                    <h5 class="card-title text-danger">@n.Title</h5>
+                                    <p class="card-text">@n.Description</p>
+                                </div>
+                                <div class="card-footer border-0 bg-transparent">
+                                    <a href="@n.Link" class="btn btn-outline-danger" target="_blank">Read More</a>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            }
+            else
+            {
+                <p class="text-warning text-center">🔴 Няма заредени новини.</p>
+            }
         </div>
     </div>
 </div>
 
-<footer class="mt-4 text-center">
+<footer class="mt-4 text-center text-white">
     <p>&copy; 2025 F1 World | Designed for Racing Fans ❤️</p>
 </footer>
