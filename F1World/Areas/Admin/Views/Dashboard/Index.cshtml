@@ -1,0 +1,44 @@
+﻿@{
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+    ViewData["Title"] = "Admin Panel";
+}
+
+<div class="container">
+    <h1 class="text-danger mb-4">👑 Администраторски Панел</h1>
+
+    <div class="alert alert-dark">
+        Добре дошъл, <strong>@User.Identity?.Name</strong>!
+    </div>
+
+    <div class="row">
+        <div class="col-md-4">
+            <div class="card bg-dark text-white border-danger shadow">
+                <div class="card-body">
+                    <h5 class="card-title">📋 Управление на Пилоти</h5>
+                    <p class="card-text">Добавяй, редактирай или трий F1 пилоти.</p>
+                    <a href="#" class="btn btn-danger disabled">В процес на разработка</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4 mt-4 mt-md-0">
+            <div class="card bg-dark text-white border-danger shadow">
+                <div class="card-body">
+                    <h5 class="card-title">🏁 Отбори</h5>
+                    <p class="card-text">Управление на F1 отбори и детайли.</p>
+                    <a href="#" class="btn btn-danger disabled">В процес на разработка</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4 mt-4 mt-md-0">
+            <div class="card bg-dark text-white border-danger shadow">
+                <div class="card-body">
+                    <h5 class="card-title">📰 Новини</h5>
+                    <p class="card-text">Импортирай или редактирай F1 новини.</p>
+                    <a href="#" class="btn btn-danger disabled">В процес на разработка</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

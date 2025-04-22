@@ -49,10 +49,22 @@
                 @Html.DisplayFor(modelItem => item.Team.TeamId)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.PilotId">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.PilotId">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.PilotId">Delete</a>
-            </td>
+                    @if (User.IsInRole("Admin"))
+                    {
+                    <td>
+                            @Html.ActionLink("Edit", "Edit", new { id = item }) |
+                            @Html.ActionLink("Details", "Details", new { id = item }) |
+                            @Html.ActionLink("Delete", "Delete", new { id = item })
+                    </td>
+                    }
+                    else
+                    {
+                    <td>
+                            @Html.ActionLink("Details", "Details", new { id = item})
+                    </td>
+                    }
+                
+            
         </tr>
 }
     </tbody>

@@ -10,29 +10,34 @@ namespace F1World
         {
             var builder = WebApplication.CreateBuilder(args);
 
-            // 👉 1. Add services
+            // 🔧 1. Configure services
             var connectionString = builder.Configuration.GetConnectionString("DefaultConnection")
                 ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
 
             builder.Services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(connectionString));
+
             builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
             builder.Services.AddDefaultIdentity<IdentityUser>(options =>
             {
                 options.SignIn.RequireConfirmedAccount = false;
+                options.Password.RequireDigit = true;
+                options.Password.RequireUppercase = true;
+                options.Password.RequireLowercase = true;
+                options.Password.RequiredLength = 6;
             })
-            .AddRoles<IdentityRole>() // 👈 Добавяме Role поддръжка
+            .AddRoles<IdentityRole>() // 👈 Добавяме ролев мениджмънт
             .AddEntityFrameworkStores<ApplicationDbContext>();
 
             builder.Services.AddControllersWithViews();
 
             var app = builder.Build();
 
-            // 👉 2. Seed Roles и Admin User
+            // 🔑 2. Seed roles and admin user
             await SeedRolesAndAdminAsync(app);
 
-            // 👉 3. Middleware pipeline
+            // ⚙️ 3. Middleware
             if (app.Environment.IsDevelopment())
             {
                 app.UseMigrationsEndPoint();
@@ -48,18 +53,19 @@ namespace F1World
 
             app.UseRouting();
 
-            app.UseAuthentication(); // 👈 важно!
-            app.UseAuthorization();
+            app.UseAuthentication(); // 👈 За вход и регистрация
+            app.UseAuthorization();  // 👈 За достъп според роли
 
             app.MapControllerRoute(
                 name: "default",
                 pattern: "{controller=Home}/{action=Index}/{id?}");
-            app.MapRazorPages();
+
+            app.MapRazorPages(); // 👈 За Identity страници
 
             app.Run();
         }
 
-        // 🔑 Seed метод
+        // 📌 Seed roles and admin
         private static async Task SeedRolesAndAdminAsync(WebApplication app)
         {
             using var scope = app.Services.CreateScope();
@@ -76,9 +82,10 @@ namespace F1World
                 }
             }
 
-            // Създаване на Admin акаунт
+            // 📧 Admin user
             var adminEmail = "admin@f1world.com";
-            var adminPass = "Admin@123"; // Смени по-късно!
+            var adminPassword = "Admin@123";
+
             var adminUser = await userManager.FindByEmailAsync(adminEmail);
 
             if (adminUser == null)
@@ -90,7 +97,7 @@ namespace F1World
                     EmailConfirmed = true
                 };
 
-                var result = await userManager.CreateAsync(user, adminPass);
+                var result = await userManager.CreateAsync(user, adminPassword);
                 if (result.Succeeded)
                 {
                     await userManager.AddToRoleAsync(user, "Admin");
