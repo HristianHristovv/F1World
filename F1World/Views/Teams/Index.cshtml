@@ -1,63 +1,48 @@
 ﻿@model IEnumerable<F1World.Team>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Teams";
 }
 
-<h1>Index</h1>
+<h1 class="text-danger text-center">🏁 F1 Teams</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    @if (User.IsInRole("Admin"))
+    {
+        <a class="btn btn-success" asp-action="Create">➕ Create New</a>
+    }
 </p>
-<table class="table">
+
+<table class="table table-dark table-striped table-hover shadow">
     <thead>
         <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Name)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.BaseLocation)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.FoundedYear)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Principal)
-            </th>
-            <th></th>
+            <th>Team Name</th>
+            <th>BaseLocation</th>
+            <th>Founded</th>
+            <th>Actions</th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.BaseLocation)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.FoundedYear)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Principal)
-            </td>
-            <td>
+        @foreach (var team in Model)
+        {
+            <tr>
+                <td>
+                    <a class="btn btn-outline-light btn-sm"
+                       target="_blank"
+                       href="https://en.wikipedia.org/wiki/@(team.Name.Replace(" ", "_"))">
+                        @team.Name
+                    </a>
+                </td>
+                <td>@team.BaseLocation</td>
+                <td>@team.FoundedYear</td>
+                <td>
                     @if (User.IsInRole("Admin"))
                     {
-                    <td>
-                            @Html.ActionLink("Edit", "Edit", new { id = item}) |
-                            @Html.ActionLink("Details", "Details", new { id = item}) |
-                            @Html.ActionLink("Delete", "Delete", new { id = item})
-                    </td>
+                        @Html.ActionLink("Edit", "Edit", new { id = team }, new { @class = "btn btn-sm btn-warning me-1" })
+                        @Html.ActionLink("Delete", "Delete", new { id = team }, new { @class = "btn btn-sm btn-danger" })
                     }
-                    else
-                    {
-                    <td>
-                            @Html.ActionLink("Details", "Details", new { id = item})
-                    </td>
-                    }
-        </tr>
-}
+                </td>
+            </tr>
+        }
     </tbody>
 </table>

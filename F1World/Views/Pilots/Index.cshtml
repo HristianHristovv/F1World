@@ -1,71 +1,40 @@
 ﻿@model IEnumerable<F1World.Pilot>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Pilots";
 }
 
-<h1>Index</h1>
+<div class="container bg-dark text-white p-4 rounded shadow">
+    <h2 class="text-center text-danger mb-4">🏎️ Pilots</h2>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.FirstName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.LastName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Nationality)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.DateOfBirth)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Team)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.FirstName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.LastName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Nationality)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.DateOfBirth)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Team.TeamId)
-            </td>
-            <td>
-                    @if (User.IsInRole("Admin"))
-                    {
+    @if (User.IsInRole("Admin"))
+    {
+        <p>
+            <a asp-action="Create" class="btn btn-success rounded-pill px-4 py-2">
+                <i class="bi bi-plus-lg"></i> Create New
+            </a>
+        </p>
+    }
+
+    <table class="table table-dark table-hover table-bordered rounded shadow">
+        <thead>
+            <tr>
+                <th>Driver</th>
+                <th>Team</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
                     <td>
-                            @Html.ActionLink("Edit", "Edit", new { id = item }) |
-                            @Html.ActionLink("Details", "Details", new { id = item }) |
-                            @Html.ActionLink("Delete", "Delete", new { id = item })
+                        <span class="btn btn-outline-light rounded-pill px-3">
+                            @item.FirstName @item.LastName
+                        </span>
                     </td>
-                    }
-                    else
-                    {
-                    <td>
-                            @Html.ActionLink("Details", "Details", new { id = item})
-                    </td>
-                    }
-                
-            
-        </tr>
-}
-    </tbody>
-</table>
+                    <td>@item.Team?.Name</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
