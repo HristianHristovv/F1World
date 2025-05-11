@@ -4,12 +4,12 @@
     ViewData["Title"] = "Teams";
 }
 
-<h1 class="text-danger text-center">🏁 F1 Teams</h1>
+<h1 class="text-danger text-center">F1 Teams</h1>
 
 <p>
     @if (User.IsInRole("Admin"))
     {
-        <a class="btn btn-success" asp-action="Create">➕ Create New</a>
+        <a class="btn btn-success" asp-action="Create">Create New</a>
     }
 </p>
 
@@ -17,9 +17,12 @@
     <thead>
         <tr>
             <th>Team Name</th>
-            <th>BaseLocation</th>
+            <th>Base Location</th>
             <th>Founded</th>
-            <th>Actions</th>
+            @if (User.IsInRole("Admin"))
+            {
+                <th>Actions</th>
+            }
         </tr>
     </thead>
     <tbody>
@@ -35,13 +38,13 @@
                 </td>
                 <td>@team.BaseLocation</td>
                 <td>@team.FoundedYear</td>
-                <td>
-                    @if (User.IsInRole("Admin"))
-                    {
-                        @Html.ActionLink("Edit", "Edit", new { id = team }, new { @class = "btn btn-sm btn-warning me-1" })
-                        @Html.ActionLink("Delete", "Delete", new { id = team }, new { @class = "btn btn-sm btn-danger" })
-                    }
-                </td>
+                @if (User.IsInRole("Admin"))
+                {
+                    <td>
+                        @Html.ActionLink("Edit", "Edit", new { id = team.TeamId }, new { @class = "btn btn-sm btn-warning me-1" })
+                        @Html.ActionLink("Delete", "Delete", new { id = team.TeamId }, new { @class = "btn btn-sm btn-danger" })
+                    </td>
+                }
             </tr>
         }
     </tbody>

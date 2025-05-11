@@ -1,6 +1,8 @@
 ﻿using F1World.Data;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc.Authorization;
 
 namespace F1World
 {
@@ -27,17 +29,24 @@ namespace F1World
                 options.Password.RequireLowercase = true;
                 options.Password.RequiredLength = 6;
             })
-            .AddRoles<IdentityRole>() // 👈 Добавяме ролев мениджмънт
+            .AddRoles<IdentityRole>()
             .AddEntityFrameworkStores<ApplicationDbContext>();
 
-            builder.Services.AddControllersWithViews();
+            // 🛡️ 2. Add global authorization policy
+            builder.Services.AddControllersWithViews(options =>
+            {
+                var policy = new AuthorizationPolicyBuilder()
+                    .RequireAuthenticatedUser()
+                    .Build();
+                options.Filters.Add(new AuthorizeFilter(policy));
+            });
 
             var app = builder.Build();
 
-            // 🔑 2. Seed roles and admin user
+            // 🔑 3. Seed roles and admin
             await SeedRolesAndAdminAsync(app);
 
-            // ⚙️ 3. Middleware
+            // ⚙️ 4. Middleware
             if (app.Environment.IsDevelopment())
             {
                 app.UseMigrationsEndPoint();
@@ -53,14 +62,14 @@ namespace F1World
 
             app.UseRouting();
 
-            app.UseAuthentication(); // 👈 За вход и регистрация
-            app.UseAuthorization();  // 👈 За достъп според роли
+            app.UseAuthentication();
+            app.UseAuthorization();
 
             app.MapControllerRoute(
                 name: "default",
                 pattern: "{controller=Home}/{action=Index}/{id?}");
 
-            app.MapRazorPages(); // 👈 За Identity страници
+            app.MapRazorPages();
 
             app.Run();
         }
@@ -82,7 +91,6 @@ namespace F1World
                 }
             }
 
-            // 📧 Admin user
             var adminEmail = "admin@f1world.com";
             var adminPassword = "Admin@123";
 
